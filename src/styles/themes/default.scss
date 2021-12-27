@@ -1,0 +1,55 @@
+/* 绿荫草场主题、荣耀典藏主题、暗黑之子主题加QQ讨论群972435319、1139183756后私聊群主获取，获取后将主题放到themes文件夹根目录即可 */
+
+.network-pro-theme-blue {
+  // .top-bar-container,
+  .side-bar-container {
+    color: #fff;
+    background: url(../../assets/back_images/blue.png) no-repeat;
+    background-size: cover;
+    .el-menu {
+      background: none !important;
+      .el-submenu__title,
+      .el-menu-item:not(.is-active, :hover) {
+        background: none !important;
+      }
+      .el-menu-item.is-active {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+      }
+      .el-menu-item:hover {
+        background-color: rgba(0, 0, 0, 0.3) !important;
+      }
+    }
+  }
+  .logo-container-vertical {
+    background: none;
+  }
+}
+
+.vab-background .comprehensive-bar-container .el-menu .el-menu-item.is-active,
+.vab-background .comprehensive-bar-container .el-menu .el-menu-item:hover,
+.vab-background
+  .comprehensive-bar-container
+  .el-menu
+  .el-sub-menu__title.is-active,
+.vab-background .comprehensive-bar-container .el-menu .el-sub-menu__title:hover,
+// .vab-background .top-bar-container .el-menu .el-menu-item.is-active,
+// .vab-background .top-bar-container .el-menu .el-menu-item:hover,
+// .vab-background .top-bar-container .el-menu .el-sub-menu__title.is-active,
+// .vab-background .top-bar-container .el-menu .el-sub-menu__title:hover,
+.vab-background
+  .vab-side-bar:not(.is-collapse)
+  .el-menu
+  .el-menu-item.is-active,
+.vab-background .vab-side-bar:not(.is-collapse) .el-menu .el-menu-item:hover,
+.vab-background
+  .vab-side-bar:not(.is-collapse)
+  .el-menu
+  .el-sub-menu__title.is-active,
+.vab-background
+  .vab-side-bar:not(.is-collapse)
+  .el-menu
+  .el-sub-menu__title:hover {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.3);
+}
