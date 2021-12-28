@@ -8,7 +8,7 @@
     >
       <div class="popover-box user-popover popover">
         <img
-          :src="sererIp + item.tb_user.avatar"
+          :src="sererIp + item.tb_user.photo"
           class="lazy avatar"
         />
       </div>
@@ -29,7 +29,7 @@
               >
                 <div class="popover-box user-popover">
                   <img
-                    :src="sererIp + child.tb_user.avatar"
+                    :src="sererIp + child.tb_user.photo"
                     class="lazy avatar"
                   >
                 </div>

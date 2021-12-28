@@ -25,7 +25,7 @@ const getters = {
   username: (state) => state.username,
   userid: (state) => state.userid,
   usermenu: (state) => state.usermenu,
-  avatarurl: (state) => state.avatarurl,
+  photo: (state) => state.photo,
 }
 const mutations = {
   setAccessToken(state, accessToken) {
@@ -41,8 +41,8 @@ const mutations = {
   setUserid(state, userid) {
     state.userid = userid
   },
-  setAvatar(state, avatar) {
-    state.avatarurl = avatar
+  setPhoto(state, photo) {
+    state.photo = photo
   },
 }
 const actions = {
@@ -76,17 +76,17 @@ const actions = {
       Vue.prototype.$baseMessage('验证失败，请重新登录...', 'error')
       return false
     }
-    let { userName, userMenu, userid, avatar } = data
-    if (userMenu && userName && Array.isArray(userMenu)) {
-      commit('setUsername', userName)
-      commit('setUserid', userid)
-      commit('setUsermenu', userMenu)
-      commit('setAvatar', avatar)
-      return userMenu
-    } else {
-      Vue.prototype.$baseMessage('用户信息接口异常', 'error')
-      return false
-    }
+    let { username, userMenu, userid, photo } = data
+    // if (userMenu && username && Array.isArray(userMenu)) {
+    commit('setUsername', username)
+    commit('setUserid', userid)
+    commit('setUsermenu', userMenu)
+    commit('setPhoto', photo)
+    return userMenu
+    // } else {
+    //   Vue.prototype.$baseMessage('用户信息接口异常', 'error')
+    //   return false
+    // }
   },
   async logout({ dispatch }) {
     await logout(state.accessToken)

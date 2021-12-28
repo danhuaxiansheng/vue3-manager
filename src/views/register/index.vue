@@ -163,7 +163,7 @@ export default {
             dataList: JSON.stringify({
               account: this.form.account,
               username: this.form.username,
-              pwd: md5(this.form.password),
+              password: md5(this.form.password),
             }),
           }).then((res) => {
             this.$baseMessage('注册成功！', 'success')

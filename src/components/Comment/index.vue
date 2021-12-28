@@ -6,7 +6,7 @@
       </div>
       <div class="content">
         <div class="avatar-box">
-          <img :src="avatarurl" class="lazy avatar" />
+          <img :src="photo" class="lazy avatar" />
         </div>
         <EnterInput ref="input" @submit="submitStr"></EnterInput>
       </div>
@@ -50,7 +50,7 @@ export default {
     return {
       indexName: 'tb_article_message',
       dataList: [],
-      avatarurl: baseURL + this.$store.state.user.avatarurl,
+      photo: baseURL + this.$store.state.user.photo,
     }
   },
   beforeMount() {
@@ -76,7 +76,7 @@ export default {
             select: {
               id: true,
               username: true,
-              avatar: true,
+              photo: true,
             },
           },
         }),

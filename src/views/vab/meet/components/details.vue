@@ -5,7 +5,7 @@
       <div class="author-info-block">
         <a href="#" target="_blank" rel="" class="avatar-link">
           <img
-            :src="sererIp + form.tb_user.avatar"
+            :src="sererIp + form.tb_user.photo"
             class="lazy avatar"
           />
         </a>
@@ -57,10 +57,10 @@ export default {
         title: '',
         type: '',
         content: '',
-        readtime: 0,
+        readtimes: 0,
         tb_user: {
           username: '',
-          avatar: '',
+          photo: '',
         },
       },
     }

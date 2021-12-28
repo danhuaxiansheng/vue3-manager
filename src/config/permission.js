@@ -30,7 +30,8 @@ router.beforeResolve(async (to, from, next) => {
       if (progressBar) VabProgress.done()
     } else {
       const hasPermissions =
-        store.getters['user/userid'] && store.getters['user/userid'].length > 0
+        store.getters['user/username'] &&
+        store.getters['user/username'].length > 0
       if (hasPermissions) {
         next()
       } else {

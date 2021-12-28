@@ -2,7 +2,7 @@
   <el-dropdown @command="handleCommand">
     <span class="avatar-dropdown">
       <!--<el-avatar class="user-avatar" :src="avatar"></el-avatar>-->
-      <img class="user-avatar" :src="avatarurl" />
+      <img class="user-avatar" :src="photo" />
       <div class="user-name">
         {{ username }}
         <i class="el-icon-arrow-down el-icon--right"></i>
@@ -27,7 +27,7 @@ export default {
   name: 'VabAvatar',
   data() {
     return {
-      avatarurl: baseURL + this.$store.state.user.avatarurl,
+      photo: baseURL + this.$store.state.user.photo,
     }
   },
   computed: {

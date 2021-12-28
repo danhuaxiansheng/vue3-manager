@@ -94,7 +94,7 @@
               :timestamp="parseTime(rm.createtime)"
             >
               <div class="avatar-panle">
-                <img :src="sererIp + rm.tb_user.avatar" class="lazy avatar" />
+                <img :src="sererIp + rm.tb_user.photo" class="lazy avatar" />
                 <div class="author-info-box">
                   <div class="author-name">
                     <span class="name" style="max-width: calc(100% - 50px)">
@@ -324,7 +324,7 @@ export default {
               select: {
                 id: true,
                 username: true,
-                avatar: true,
+                photo: true,
               },
             },
           }),
