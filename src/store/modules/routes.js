@@ -23,11 +23,12 @@ const mutations = {
 }
 const actions = {
   async setRoutes({ commit }, menuList) {
-    debugger
-    const finallyAsyncRoutes = await filterAsyncRoutes(
-      [...asyncRoutes],
-      menuList
-    )
+    // const finallyAsyncRoutes = await filterAsyncRoutes(
+    //   [...asyncRoutes],
+    //   menuList
+    // )
+    const finallyAsyncRoutes = asyncRoutes
+
     commit('setRoutes', finallyAsyncRoutes)
     return finallyAsyncRoutes
   },

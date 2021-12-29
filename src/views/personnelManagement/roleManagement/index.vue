@@ -263,7 +263,7 @@ export default {
     },
     getTreeData () {
       const parmas = {
-        indexName: 'tb_module',
+        indexName: 'tb_menu',
         conditions: JSON.stringify([]),
         sort: JSON.stringify([{ sortcode: 'asc' }]),
       }

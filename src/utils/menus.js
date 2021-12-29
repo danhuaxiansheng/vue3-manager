@@ -5,7 +5,7 @@
 function GetMenulist(list) {
   const menuList = []
   const parentList = list.filter((d) => !d.parentid)
-
+  debugger
   parentList.forEach((item) => {
     // 系统
     const menu = {
