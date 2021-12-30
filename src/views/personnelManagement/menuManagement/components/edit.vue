@@ -3,19 +3,19 @@
     v-loading="listLoading"
     :visible="true"
     :close-on-click-modal="false"
-    width="650px"
+    width="750px"
     :append-to-body="false"
     :show-close="false"
-    :title="getTitle"
+    :title="dtitle"
   >
     <el-form
       ref="formDia"
       :rules="rules"
       :model="dataRow"
-      label-width="85px"
+      label-width="80px"
       label-position="rigth"
     >
-      <el-form-item label="父级菜单:">
+      <el-form-item label="上级菜单">
         <el-popover
           ref="popover"
           placement="bottom"
@@ -39,41 +39,11 @@
           />
         </el-popover>
       </el-form-item>
-      <el-form-item label="菜单名称：">
-        <el-input
-          v-model.trim="dataRow.fullname"
-          placeholder="请输入菜单名称"
-          maxlength="50"
-        />
-      </el-form-item>
-      <el-form-item label="请求地址：">
-        <el-input
-          v-model.trim="dataRow.urladdress"
-          placeholder="请输入请求地址"
-          maxlength="50"
-        />
-      </el-form-item>
-      <el-form-item label="图标样式：">
-        <el-input
-          v-model.trim="dataRow.icon"
-          placeholder="请输入图标样式"
-          maxlength="50"
-        />
-      </el-form-item>
-      <el-form-item label="排序顺序：">
-        <el-input
-          v-model.trim="dataRow.sortcode"
-          placeholder="请输入排序顺序"
-          maxlength="3"
-          type="number"
-        />
-      </el-form-item>
-      <el-form-item label="是否启用：">
-        <el-switch v-model="dataRow.enabledmark" />
-      </el-form-item>
-      <el-form-item label="是否显示：">
-        <el-switch v-model="dataRow.isshow" />
-      </el-form-item>
+      <template v-for="item in column">
+        <el-col :key="item.prop" :span="12">
+          <FormItem v-model.lazy="item.value" v-bind="item"></FormItem>
+        </el-col>
+      </template>
     </el-form>
     <div style="text-align: right">
       <el-button @click="cancel">取消</el-button>
@@ -90,8 +60,13 @@
     getData,
   } from '@/api/page/common.js'
   import { GetMenulist } from '@UTILS/menus.js'
+
+  import FormItem from '@/components/FormItem/index.vue'
   export default {
     name: 'MenuEdit',
+    components: {
+      FormItem,
+    },
     props: {
       rid: {
         type: String,
@@ -103,35 +78,85 @@
       return {
         indexName: 'tb_menu',
         listLoading: false,
-
         tableData: [], // 所有菜单的原始数组
         menusData: [], // children 的菜单
-
-        dataRow: {},
+        dataRow: {
+          pid: '',
+          parentName: '',
+        },
         defaultProps: {
           children: 'children',
-          label: 'fullname',
+          label: 'title',
         },
-
-        
         rules: {
           account: [{ required: true, message: '请输入账户', trigger: 'blur' }],
           username: [
             { required: true, message: '请输入用户名', trigger: 'blur' },
           ],
         },
+        column: [
+          // { prop: 'createtime', label: '创建时间' },
+          {
+            prop: 'title',
+            label: '页面名称',
+            type: 'input',
+            dataType: 'string',
+          },
+          {
+            prop: 'name',
+            label: '路径别名',
+            type: 'input',
+            dataType: 'string',
+          },
+          {
+            prop: 'path',
+            label: '访问路径',
+            type: 'input',
+            dataType: 'string',
+          },
+          {
+            prop: 'component',
+            label: '模板路径',
+            type: 'input',
+            dataType: 'string',
+          },
+          {
+            prop: 'icon',
+            label: '图标名称',
+            type: 'input',
+            dataType: 'string',
+          },
+          {
+            prop: 'sort',
+            label: '排序顺序',
+            type: 'input',
+            dataType: 'number',
+          },
+          {
+            prop: 'redirect',
+            label: '重定向',
+            type: 'input',
+            dataType: 'string',
+          },
+          // {prop:'isLink',label:'跳转到指定路径',type:'input',dataType:'string'},
+          {
+            prop: 'isHide',
+            label: '是否隐藏',
+            type: 'radio',
+            dataType: 'number',
+            options: [
+              { label: 0, text: '显示' },
+              { label: 1, text: '隐藏' },
+            ],
+          },
+        ],
         checkPid: [],
-        defaultRow: {
-          parentid: '',
-          parentName: '',
-          fullname: '',
-          urladdress: '',
-          icon: '',
-          sortcode: 10,
-          isshow: 1,
-          enabledmark: 1,
-        },
       }
+    },
+    computed: {
+      dtitle() {
+        return this.rid ? '编辑菜单' : '新增菜单'
+      },
     },
     async created() {
       this.getAllList()
@@ -140,9 +165,6 @@
       }
     },
     methods: {
-      getTitle() {
-        return this.rid ? '编辑菜单' : '新增菜单'
-      },
       getAllList() {
         const parmas = {
           indexName: this.indexName,
@@ -168,44 +190,59 @@
         })
       },
       handleEdit(row) {
-        const newRow = JSON.parse(JSON.stringify(row))
-        delete newRow.children
-        this.dataRow = JSON.parse(
-          JSON.stringify(Object.assign(this.defaultRow, newRow))
-        )
-        this.dataRow.isshow = this.dataRow.isshow === 1
-        this.dataRow.enabledmark = this.dataRow.enabledmark === 1
-
-        if (this.dataRow.parentid) {
+        if (this.dataRow.pid) {
           let filData = this.tableData.filter(
-            (el) => el.id === this.dataRow.parentid
+            (el) => el.id === this.dataRow.pid
           )
           this.dataRow.parentName =
             filData.length > 0 ? filData[0].fullname : ''
-          this.checkPid = [this.dataRow.parentid]
+          this.checkPid = [this.dataRow.pid]
         }
       },
       handleNodeClick(row) {
-        this.dataRow.parentid = row.id
-        this.dataRow.parentName = row.fullname
+        debugger
+        this.dataRow.pid = row.id
+        this.dataRow.parentName = row.title
         this.$refs.popover.doClose()
       },
+
+      getValue(value, type) {
+        let val
+        switch (type) {
+          case 'number':
+            val = value || value == '0' ? parseInt(value) : null
+            break
+          case 'boolean':
+            val = value ? true : false
+            break
+          // case 'string':
+          default:
+            val = value || value == '0' ? value : null
+            break
+        }
+        return val
+      },
+
+      getFormData() {
+        let param = {}
+        this.column.forEach((element) => {
+          let value = this.getValue(element.value, element.dataType)
+          if (value != null) {
+            param[element.prop] = value
+          }
+        })
+        return param
+      },
+
       submitData() {
         this.listLoading = true
         const form = { ...this.dataRow }
-        form.isshow = form.isshow ? 1 : 0
-        form.enabledmark = form.enabledmark ? 1 : 0
-        if (form.sortcode) {
-          form.sortcode = parseInt(form.sortcode)
-        }
         delete form.parentName
 
         if (this.rid) {
           updateData({
             indexName: this.indexName,
-            conditions: JSON.stringify([
-              { field: 'id', value: this.dataRow.id },
-            ]),
+            conditions: JSON.stringify([{ field: 'id', value: this.rid }]),
             dataList: JSON.stringify(form),
           })
             .then((res) => {
@@ -232,6 +269,7 @@
         }
       },
       confirmRole() {
+        this.dataRow = this.getFormData()
         this.$refs.formDia.validate((valid) => {
           if (!valid) {
             return false

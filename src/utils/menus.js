@@ -4,21 +4,13 @@
 // / <returns></returns>
 function GetMenulist(list) {
   const menuList = []
-  const parentList = list.filter((d) => !d.parentid)
-  debugger
+  const parentList = list.filter((d) => !d.pid)
   parentList.forEach((item) => {
     // 系统
     const menu = {
-      id: item.id,
-      icon: item.icon,
-      isshow: item.isshow,
-      sortcode: item.sortcode,
-      fullname: item.fullname,
-      urladdress: item.urladdress,
-      enabledmark: item.enabledmark,
+      ...item,
       children: GetMenuChild(item.id, list),
     }
-
     menuList.push(menu)
   })
   return menuList
@@ -26,13 +18,14 @@ function GetMenulist(list) {
 
 function GetMenuChild(id, allList) {
   const childList = []
-  const filterList = allList.filter((d) => d.parentid === id)
+  const filterList = allList.filter((d) => d.pid === id)
   if (filterList.length > 0) {
+    debugger
     filterList.forEach((item) => {
       // 页面
       const child = {
         id: item.id,
-        parentid: id,
+        pid: id,
         icon: item.icon,
         isshow: item.isshow,
         sortcode: item.sortcode,
