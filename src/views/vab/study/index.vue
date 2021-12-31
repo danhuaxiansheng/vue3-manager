@@ -77,7 +77,7 @@
 
 <script>
   import SearchBar from '@/components/SearchBar/index.vue'
-  // import { getData } from '@/api/page/common.js'
+  // import { getData } from '@/api/common.js'
   export default {
     name: 'Meetlist',
     components: { SearchBar },

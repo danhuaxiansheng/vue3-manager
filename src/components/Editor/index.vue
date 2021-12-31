@@ -6,7 +6,7 @@
 <script>
   import wangeditor from 'wangeditor'
   import { baseURL } from '@/config'
-  import { UploadImg } from '@/api/page/common'
+  import { UploadImg } from '@/api/common'
 
   export default {
     name: 'WngEditor',

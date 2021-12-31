@@ -111,7 +111,7 @@
             <el-option
               v-for="item in roleList"
               :key="item.id"
-              :label="item.rolename"
+              :label="item.name"
               :value="item.id"
             />
           </el-select>
@@ -141,8 +141,8 @@
 
 <script>
 import { parseTime } from '@UTILS/index.js'
-import { getData, deleteData, updateData } from '@/api/page/common.js'
-import { addUser, updateDefaultPwd, resetPwd } from '@/api/page/user.js'
+import { getData, deleteData, updateData } from '@/api/common.js'
+import { addUser, updateDefaultPwd, resetPwd } from '@/api/user.js'
 import md5 from 'js-md5'
 import Table from '@/components/GridBar/index.vue'
 export default {
@@ -226,7 +226,7 @@ export default {
     handleEdit (row) {
       this.dialog.dataRow = {
         ...row,
-        roleArr: row.roleids ? row.roleids.split(',') : [],
+        roleArr: row.roleids ? row.roleids.split(',').map(Number) : [],
       }
       this.dialog.type = 'edit'
       this.dialog.visible = true

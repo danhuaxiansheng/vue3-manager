@@ -117,7 +117,7 @@
 <script>
 import VabChart from '@/plugins/echarts'
 import { parseTime } from '@UTILS/index.js'
-import { getData } from '@/api/page/common.js'
+import { getData } from '@/api/common.js'
 import { baseURL } from '@/config'
 export default {
   name: 'Index',

@@ -76,7 +76,7 @@
 </template>
 <script>
 import { isPassword } from '@/utils/validate'
-import { addUser } from '@/api/page/user.js'
+import { addUser } from '@/api/user.js'
 import md5 from 'js-md5'
 export default {
   name: 'Register',

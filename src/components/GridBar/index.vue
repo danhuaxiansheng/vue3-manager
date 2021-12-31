@@ -43,7 +43,7 @@
 </template>
 <script>
   import { parseTime } from '@UTILS/index.js'
-  import { getData } from '@/api/page/common.js'
+  import { getData } from '@/api/common.js'
   export default {
     props: {
       table: {

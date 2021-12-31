@@ -14,7 +14,6 @@
       border
       :stripe="true"
       row-key="id"
-      :expand-row-keys="expandKeys"
       :element-loading-text="elementLoadingText"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
@@ -53,7 +52,7 @@
 
 <script>
   import { GetMenulist } from '@UTILS/menus.js'
-  import { getData, deleteData } from '@/api/page/common.js'
+  import { getData, deleteData } from '@/api/common.js'
   import Edit from './components/edit.vue'
 
   export default {
@@ -66,7 +65,6 @@
         indexName: 'tb_menu',
         menusData: [],
         tableData: [],
-        expandKeys: [], //默认展开的节点
         listLoading: true,
         elementLoadingText: '正在加载...',
         dialog: {
@@ -89,14 +87,7 @@
         getData(parmas).then((res) => {
           this.tableData = res.data
           this.menusData = GetMenulist(res.data)
-          this.getExpandKey()
           this.listLoading = false
-        })
-      },
-      getExpandKey() {
-        this.expandKeys = []
-        this.menusData.forEach((item) => {
-          this.expandKeys.push(item.id)
         })
       },
       handleDialog(row) {

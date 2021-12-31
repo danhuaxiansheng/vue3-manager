@@ -40,7 +40,7 @@
 
 <script>
   import Editor from '@/components/Editor/index.vue'
-  import { addData } from '@/api/page/common.js'
+  import { addData } from '@/api/common.js'
   export default {
     name: 'Meetcreate',
     components: { Editor },

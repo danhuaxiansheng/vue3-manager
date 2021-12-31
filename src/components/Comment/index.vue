@@ -33,7 +33,7 @@
 
 <script>
 import { baseURL } from '@/config'
-import { getData, addData } from '@/api/page/common.js'
+import { getData, addData } from '@/api/common.js'
 import PopoverMessage from './components/PopoverMessage.vue'
 import EnterInput from './components/enterInput.vue'
 export default {

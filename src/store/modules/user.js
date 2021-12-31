@@ -3,8 +3,8 @@
  */
 
 import Vue from 'vue'
-import { login, logout, getInfo } from '@/api/page/user'
-
+import { login, logout, getInfo, getMenuByRoleid } from '@/api/user'
+import { GetMenulist } from '@UTILS/menus.js'
 import {
   getAccessToken,
   removeAccessToken,
@@ -17,13 +17,12 @@ const state = () => ({
   accessToken: getAccessToken(),
   username: '',
   userid: '',
-  usermenu: [],
+  roleids: [],
 })
 const getters = {
   accessToken: (state) => state.accessToken,
   username: (state) => state.username,
   userid: (state) => state.userid,
-  usermenu: (state) => state.usermenu,
   photo: (state) => state.photo,
 }
 const mutations = {
@@ -34,14 +33,14 @@ const mutations = {
   setUsername(state, username) {
     state.username = username
   },
-  setUsermenu(state, usermenu) {
-    state.usermenu = usermenu
-  },
   setUserid(state, userid) {
     state.userid = userid
   },
   setPhoto(state, photo) {
     state.photo = photo
+  },
+  setRole(state, roleids) {
+    state.roleids = roleids
   },
 }
 const actions = {
@@ -75,18 +74,24 @@ const actions = {
       Vue.prototype.$baseMessage('验证失败，请重新登录...', 'error')
       return false
     }
-    let { username, userMenu, userid, photo } = data
-    // if (userMenu && username && Array.isArray(userMenu)) {
+    let { username, userid, photo, roleids } = data
+    roleids = roleids ? roleids.split(',').map(Number) : []
     commit('setUsername', username)
     commit('setUserid', userid)
-    commit('setUsermenu', userMenu)
     commit('setPhoto', photo)
-    return userMenu
-    // } else {
-    //   Vue.prototype.$baseMessage('用户信息接口异常', 'error')
-    //   return false
-    // }
+    commit('setRole', roleids)
+    return roleids
   },
+  async getMenuList({ commit, state }, roleids) {
+    let res
+    let menusData = []
+    if (roleids && roleids.length > 0) {
+      res = await getMenuByRoleid({ roleids: roleids.join(',') })
+      menusData = GetMenulist(res.data)
+    }
+    return menusData
+  },
+
   async logout({ dispatch }) {
     await logout(state.accessToken)
     await dispatch('resetAccessToken')

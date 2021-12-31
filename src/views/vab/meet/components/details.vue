@@ -42,7 +42,7 @@
 <script>
 import { baseURL } from '@/config'
 import Comment from '@/components/Comment/index'
-import { getFirstData } from '@/api/page/common.js'
+import { getFirstData } from '@/api/common.js'
 export default {
   name: 'Editor',
   components: { Comment },

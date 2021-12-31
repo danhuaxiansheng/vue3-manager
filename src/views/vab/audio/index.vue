@@ -47,7 +47,7 @@
 
 <script>
 // import Table from '@/components/GridBar/index.vue'
-import { getData } from '@/api/page/common.js'
+import { getData } from '@/api/common.js'
 export default {
   name: 'Meetlist',
   // components: { Table },

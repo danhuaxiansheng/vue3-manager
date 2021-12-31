@@ -31,7 +31,7 @@
 
 <script>
   import Editor from '@/components/Editor/index.vue'
-  import { updateData, getFirstData } from '@/api/page/common'
+  import { updateData, getFirstData } from '@/api/common'
   export default {
     name: 'Meetedit',
     components: { Editor },

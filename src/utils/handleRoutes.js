@@ -1,94 +1,99 @@
-const whiteList = ['*']
+// const whiteList = ['*']
 
-/**
- * @description all模式渲染后端返回路由
- * @param constantRoutes
- * @returns {*}
- */
-// export function convertRouter(asyncRoutes) {
-//   return asyncRoutes.map((route) => {
-//     if (route.component) {
-//       if (route.component === 'Layout') {
-//         route.component = (resolve) => require(['@/layouts'], resolve)
-//       } else if (route.component === 'EmptyLayout') {
-//         route.component = (resolve) =>
-//           require(['@/layouts/EmptyLayout'], resolve)
-//       } else {
-//         const index = route.component.indexOf('views')
-//         const path =
-//           index > 0 ? route.component.slice(index) : `views/${route.component}`
-//         route.component = (resolve) => require([`@/${path}`], resolve)
+// function hasMenus(route, userMenus) {
+//   let isTrue = false
+//   userMenus.forEach((item) => {
+//     if (item.path === route.path) {
+//       isTrue = true
+//       setMenuAttr(route, item)
+//       return false
+//     } else if (item.children && item.children.length > 0) {
+//       if (hasMenus(route, item.children)) {
+//         isTrue = true
+//         return false
 //       }
 //     }
-//     if (route.children && route.children.length)
-//       route.children = convertRouter(route.children)
-//     if (route.children && route.children.length === 0) delete route.children
-//     return route
 //   })
+//   return isTrue
 // }
 
-function hasMenus(route, userMenus) {
-  let isTrue = false
-  const address = route.path
+// function setMenuAttr(route, menu) {
+//   route.meta = {
+//     icon: menu.icon,
+//     title: menu.title,
+//   }
+//   route.path = menu.path
+//   route.name = menu.name || ''
+//   route.hidden = menu.isHide ? true : false
+// }
 
-  userMenus.forEach((item) => {
-    if (item.urladdress === address) {
-      isTrue = true
-      setMenuAttr(route, item)
-      return false
-    } else if (item.children && item.children.length > 0) {
-      if (hasMenus(route, item.children)) {
-        isTrue = true
+// function hasPermission(userMenus, route) {
+//   const path = route.path
+//   if (!path || whiteList.includes(path)) {
+//     return true
+//   } else {
+//     if (hasMenus(route, userMenus)) {
+//       return true
+//     } else {
+//       return false
+//     }
+//   }
+// }
 
-        return false
-      }
-    }
-  })
-  return isTrue
-}
+// /**
+//  * Filter asynchronous routing tables by recursion
+//  * @param routes asyncRoutes
+//  * @param roles
+//  */
+// export function filterAsyncRoutes(userMenus, routes) {
+//   const res = []
+//   routes.forEach((route) => {
+//     const tmp = { ...route }
+//     if (hasPermission(userMenus, tmp)) {
+//       const temChild = route.children
+//       if (temChild && temChild.length > 0) {
+//         const newChild = filterAsyncRoutes(temChild, userMenus)
+//         if (!tmp.children || tmp.children.length === 0) {
+//           delete tmp.children
+//         } else {
+//           tmp.children = newChild
+//         }
+//       }
+//       res.push(tmp)
+//     }
+//   })
+//   return res
+// }
 
-function setMenuAttr(route, item) {
-  route.meta = {
-    icon: item.icon,
-    title: item.title,
+import Layout from '@/layouts'
+
+function getConstRoter(menu) {
+  let tem = {
+    meta: {
+      icon: menu.icon,
+      title: menu.title,
+    },
+    path: menu.path,
+    name: menu.name || '',
+    component: () => {
+      menu.component === 'Layout' ? Layout : require(`@/views/${menu.component}`)
+    },
+    hidden: menu.isHide ? true : false,
   }
-  route.hidden = item.isHide
-}
 
-function hasPermission(userMenus, route) {
-  const address = route.path
-  if (!address || !route.meta || whiteList.includes(address)) {
-    return true
-  } else {
-    if (hasMenus(route, userMenus)) {
-      return true
-    } else {
-      return false
-    }
+  if (menu.childern && menu.childern.length > 0) {
+    tem.childern = []
+    menu.childern.forEach((item) => {
+      tem.childern.push(getConstRoter(item))
+    })
   }
+  return tem
 }
 
-/**
- * Filter asynchronous routing tables by recursion
- * @param routes asyncRoutes
- * @param roles
- */
-export function filterAsyncRoutes(routes, userMenus) {
+export function filterAsyncRoutes(userMenus) {
   const res = []
-  routes.forEach((route) => {
-    const tmp = { ...route }
-    if (hasPermission(userMenus, tmp)) {
-      const temChild = route.children
-      if (temChild && temChild.length > 0) {
-        const newChild = filterAsyncRoutes(temChild, userMenus)
-        if (!tmp.children || tmp.children.length === 0) {
-          delete tmp.children
-        } else {
-          tmp.children = newChild
-        }
-      }
-      res.push(tmp)
-    }
+  userMenus.forEach((route) => {
+    res.push(getConstRoter(route))
   })
   return res
 }

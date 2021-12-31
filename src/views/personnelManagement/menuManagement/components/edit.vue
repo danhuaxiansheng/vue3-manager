@@ -26,7 +26,6 @@
             :data="menusData"
             node-key="id"
             :props="defaultProps"
-            default-expand-all
             :default-checked-keys="checkPid"
             @node-click="handleNodeClick"
           />
@@ -58,7 +57,7 @@
     addData,
     getFirstData,
     getData,
-  } from '@/api/page/common.js'
+  } from '@/api/common.js'
   import { GetMenulist } from '@UTILS/menus.js'
 
   import FormItem from '@/components/FormItem/index.vue'

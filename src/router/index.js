@@ -60,33 +60,6 @@ export const constantRoutes = [
       },
     ],
   },
-
-  // {
-  //   path: '/material',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'material',
-  //   alwaysShow: true,
-  //   meta: { title: '资料', icon: 'box-open' },
-  //   children: [
-  //     {
-  //       path: 'studylist',
-  //       component: () => import('@/views/vab/study/index'),
-  //       name: 'studylist',
-  //       meta: {
-  //         title: '学习资料',
-  //       },
-  //     },
-  //     {
-  //       path: 'audiolist',
-  //       component: () => import('@/views/vab/audio/index'),
-  //       name: 'audiolist',
-  //       meta: {
-  //         title: '音频资料',
-  //       },
-  //     },
-  //   ],
-  // },
 ]
 
 export const asyncRoutes = [
@@ -114,6 +87,32 @@ export const asyncRoutes = [
   //     },
   //   ],
   // },
+  {
+    path: '/material',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'material',
+    alwaysShow: true,
+    meta: { title: '资料', icon: 'box-open' },
+    children: [
+      {
+        path: 'studylist',
+        component: () => import('@/views/vab/study/index'),
+        name: 'studylist',
+        meta: {
+          title: '学习资料',
+        },
+      },
+      {
+        path: 'audiolist',
+        component: () => import('@/views/vab/audio/index'),
+        name: 'audiolist',
+        meta: {
+          title: '音频资料',
+        },
+      },
+    ],
+  },
   {
     path: '/permission',
     component: Layout,

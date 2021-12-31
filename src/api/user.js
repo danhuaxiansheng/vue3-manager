@@ -52,3 +52,11 @@ export function resetPwd(data) {
     data,
   })
 }
+
+export function getMenuByRoleid(data) {
+  return request({
+    url: '/api/user/getMenuByRoleid',
+    method: 'post',
+    data,
+  })
+}
