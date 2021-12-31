@@ -3,7 +3,6 @@
  */
 
 import Vue from 'vue'
-// import { getInfo, login, logout } from '@/api/user'
 import { login, logout, getInfo } from '@/api/page/user'
 
 import {

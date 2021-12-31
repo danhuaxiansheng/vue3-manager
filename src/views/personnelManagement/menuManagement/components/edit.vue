@@ -69,8 +69,8 @@
     },
     props: {
       rid: {
-        type: String,
-        default: () => '',
+        type: Number,
+        default: () => null,
         require: false,
       },
     },
@@ -81,7 +81,7 @@
         tableData: [], // 所有菜单的原始数组
         menusData: [], // children 的菜单
         dataRow: {
-          pid: '',
+          // pid: null,
           parentName: '',
         },
         defaultProps: {
@@ -103,14 +103,20 @@
             dataType: 'string',
           },
           {
-            prop: 'name',
-            label: '路径别名',
+            prop: 'redirect',
+            label: '重定向',
             type: 'input',
             dataType: 'string',
           },
           {
             prop: 'path',
             label: '访问路径',
+            type: 'input',
+            dataType: 'string',
+          },
+          {
+            prop: 'name',
+            label: '路径别名',
             type: 'input',
             dataType: 'string',
           },
@@ -131,12 +137,7 @@
             label: '排序顺序',
             type: 'input',
             dataType: 'number',
-          },
-          {
-            prop: 'redirect',
-            label: '重定向',
-            type: 'input',
-            dataType: 'string',
+            value: 0,
           },
           // {prop:'isLink',label:'跳转到指定路径',type:'input',dataType:'string'},
           {
@@ -144,6 +145,7 @@
             label: '是否隐藏',
             type: 'radio',
             dataType: 'number',
+            value: 0,
             options: [
               { label: 0, text: '显示' },
               { label: 1, text: '隐藏' },
@@ -160,50 +162,51 @@
     },
     async created() {
       this.getAllList()
-      if (this.rid) {
+      if (this.rid != null) {
         this.fetchData()
       }
     },
     methods: {
-      getAllList() {
+      async getAllList() {
         const parmas = {
           indexName: this.indexName,
           conditions: JSON.stringify([]),
           sort: JSON.stringify([{ sort: 'asc' }, { pid: 'asc' }]),
         }
-        this.listLoading = true
-        getData(parmas).then((res) => {
-          this.tableData = res.data
-          this.menusData = GetMenulist(res.data)
-          this.listLoading = false
-        })
+        const result = await getData(parmas)
+        this.tableData = result.data
+        this.menusData = GetMenulist(result.data)
       },
-      fetchData() {
+      async fetchData() {
         const parmas = {
           indexName: this.indexName,
           conditions: JSON.stringify([{ field: 'id', value: this.rid }]),
         }
-        this.listLoading = true
-        getFirstData(parmas).then((res) => {
-          this.dataRow = res.data
-          this.listLoading = false
-        })
-      },
-      handleEdit(row) {
+        const result = await getFirstData(parmas)
+        this.dataRow = result.data
         if (this.dataRow.pid) {
           let filData = this.tableData.filter(
             (el) => el.id === this.dataRow.pid
           )
-          this.dataRow.parentName =
-            filData.length > 0 ? filData[0].fullname : ''
-          this.checkPid = [this.dataRow.pid]
+          this.dataRow.parentName = filData.length > 0 ? filData[0].title : ''
+          this.list = [this.dataRow.pid]
         }
+        this.setValue(this.dataRow)
       },
+
       handleNodeClick(row) {
-        debugger
         this.dataRow.pid = row.id
         this.dataRow.parentName = row.title
         this.$refs.popover.doClose()
+      },
+
+      setValue(data) {
+        let keys = Object.keys(data)
+        this.column.forEach((element) => {
+          if (keys.includes(element.prop)) {
+            element.value = this.getValue(data[element.prop], element.dataType)
+          }
+        })
       },
 
       getValue(value, type) {
@@ -268,8 +271,9 @@
             })
         }
       },
+
       confirmRole() {
-        this.dataRow = this.getFormData()
+        this.dataRow = { ...this.dataRow, ...this.getFormData() }
         this.$refs.formDia.validate((valid) => {
           if (!valid) {
             return false

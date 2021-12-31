@@ -50,9 +50,9 @@ function hasMenus(route, userMenus) {
 function setMenuAttr(route, item) {
   route.meta = {
     icon: item.icon,
-    title: item.fullname,
+    title: item.title,
   }
-  route.hidden = !item.isshow
+  route.hidden = item.isHide
 }
 
 function hasPermission(userMenus, route) {

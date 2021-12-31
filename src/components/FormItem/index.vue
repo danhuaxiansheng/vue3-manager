@@ -42,15 +42,14 @@
     props: {
       // 字段值
       // 双向绑定值，字段名为固定，改了之后将不生效
-      // value: {
-      //   type() {
-      //     return String | Number | Boolean
-      //   },
-      //   default: () => {
-      //     return '' 
-      //   },
-      //   require: false,
-      // },
+      value: {
+        // apiAction:[],
+        type: [String, Number, Boolean],
+        default: () => {
+          return ''
+        },
+        require: false,
+      },
       // 字段中文名
       label: {
         type: String,
@@ -96,21 +95,26 @@
     data() {
       return {
         data: '',
+        isParent: false,
       }
     },
     // 监听双向绑定值的改变
     watch: {
       data: {
         handler: function (value) {
-          this.$listeners.input(value)
+          if (!this.isParent) {
+            this.$listeners.input(value)
+          } else {
+            this.isParent = false
+          }
         },
       },
-      // value: {
-      //   handler: function (value) {
-      //     debugger
-      //     this.data = value
-      //   },
-      // },
+      value: {
+        handler: function (value) {
+          this.isParent = true
+          this.data = value
+        },
+      },
     },
     mounted() {
       this.data = this.value

@@ -47,7 +47,7 @@ export default {
       }
     },
     personalCenter() {
-      this.$router.push('/personalCenter/personalCenter')
+      this.$router.push('/personalCenter/personalInfo')
     },
     logout() {
       this.$baseConfirm(

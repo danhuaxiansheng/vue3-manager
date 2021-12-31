@@ -194,7 +194,7 @@ export default {
       treeData: [],
       defaultProps: {
         children: 'children',
-        label: 'fullname',
+        label: 'title',
       },
       detailsDia: {
         visible: false,

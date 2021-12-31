@@ -39,6 +39,11 @@ export const constantRoutes = [
     hidden: true,
   },
   {
+    path: '*',
+    redirect: '/404',
+    hidden: true,
+  },
+  {
     path: '/',
     component: Layout,
     redirect: '/index',
@@ -56,32 +61,32 @@ export const constantRoutes = [
     ],
   },
 
-  {
-    path: '/material',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'material',
-    alwaysShow: true,
-    meta: { title: '资料', icon: 'box-open' },
-    children: [
-      {
-        path: 'studylist',
-        component: () => import('@/views/vab/study/index'),
-        name: 'studylist',
-        meta: {
-          title: '学习资料',
-        },
-      },
-      {
-        path: 'audiolist',
-        component: () => import('@/views/vab/audio/index'),
-        name: 'audiolist',
-        meta: {
-          title: '音频资料',
-        },
-      },
-    ],
-  },
+  // {
+  //   path: '/material',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'material',
+  //   alwaysShow: true,
+  //   meta: { title: '资料', icon: 'box-open' },
+  //   children: [
+  //     {
+  //       path: 'studylist',
+  //       component: () => import('@/views/vab/study/index'),
+  //       name: 'studylist',
+  //       meta: {
+  //         title: '学习资料',
+  //       },
+  //     },
+  //     {
+  //       path: 'audiolist',
+  //       component: () => import('@/views/vab/audio/index'),
+  //       name: 'audiolist',
+  //       meta: {
+  //         title: '音频资料',
+  //       },
+  //     },
+  //   ],
+  // },
 ]
 
 export const asyncRoutes = [
@@ -180,28 +185,28 @@ export const asyncRoutes = [
   {
     path: '/personalCenter',
     component: Layout,
-    redirect: '/personalCenter/personalCenter',
+    redirect: '/personalCenter/personalInfo',
     name: 'personalCenter',
     hidden: true,
     meta: {
       isHide: true,
-      title: '个人信息',
-      icon: 'el-icon-s-help',
+      title: '个人中心',
+      icon: 'street-view',
     },
     children: [
       {
-        path: 'personalCenter',
+        path: 'personalInfo',
         component: () => import('@/views/personalCenter/index'),
-        name: 'personalCenterIndex',
-        meta: { title: '个人中心', icon: 'street-view' },
+        name: 'personalInfo',
+        meta: { title: '基础信息', icon: 'street-view' },
       },
     ],
   },
-  {
-    path: '*',
-    redirect: '/404',
-    hidden: true,
-  },
+  // {
+  //   path: '*',
+  //   redirect: '/404',
+  //   hidden: true,
+  // },
 ]
 
 const router = new VueRouter({
