@@ -138,7 +138,7 @@
             dataType: 'number',
             value: 0,
           },
-          // {prop:'isLink',label:'跳转到指定路径',type:'input',dataType:'string'},
+          // {prop:'link',label:'跳转到指定路径',type:'input',dataType:'string'},
           {
             prop: 'isHide',
             label: '是否隐藏',

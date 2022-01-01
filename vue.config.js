@@ -22,7 +22,7 @@ if (donation) donationConsole()
 const { version, author } = require('./package.json')
 const Webpack = require('webpack')
 const WebpackBar = require('webpackbar')
-const FileManagerPlugin = require('filemanager-webpack-plugin')
+// const FileManagerPlugin = require('filemanager-webpack-plugin')
 const dayjs = require('dayjs')
 const date = dayjs().format('YYYY_M_D')
 const time = dayjs().format('YYYY-M-D HH:mm:ss')
@@ -149,24 +149,24 @@ module.exports = {
     })
 
     if (build7z) {
-      config.when(process.env.NODE_ENV === 'production', (config) => {
-        config
-          .plugin('fileManager')
-          .use(FileManagerPlugin, [
-            {
-              onEnd: {
-                delete: [`./${outputDir}/video`, `./${outputDir}/data`],
-                archive: [
-                  {
-                    source: `./${outputDir}`,
-                    destination: `./${outputDir}/${abbreviation}_${outputDir}_${date}.7z`,
-                  },
-                ],
-              },
-            },
-          ])
-          .end()
-      })
+      // config.when(process.env.NODE_ENV === 'production', (config) => {
+      //   config
+      //     .plugin('fileManager')
+      //     .use(FileManagerPlugin, [
+      //       {
+      //         onEnd: {
+      //           delete: [`./${outputDir}/video`, `./${outputDir}/data`],
+      //           archive: [
+      //             {
+      //               source: `./${outputDir}`,
+      //               destination: `./${outputDir}/${abbreviation}_${outputDir}_${date}.7z`,
+      //             },
+      //           ],
+      //         },
+      //       },
+      //     ])
+      //     .end()
+      // })
     }
   },
   runtimeCompiler: true,

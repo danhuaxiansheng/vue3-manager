@@ -35,7 +35,6 @@
     "element-ui": "^2.15.6",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^8.2.0",
-    "filemanager-webpack-plugin": "^6.1.7",
     "image-webpack-loader": "^8.0.1",
     "js-md5": "^0.7.3",
     "jsencrypt": "^3.2.1",
@@ -50,6 +49,7 @@
     "vue-router": "^3.5.3",
     "vuex": "^3.6.2",
     "wangeditor": "^4.7.10",
+    "webpack": "^4.46.0",
     "webpackbar": "^5.0.2",
     "zx-count": "^0.3.7",
     "zx-layouts": "^0.6.27",
@@ -74,8 +74,7 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-recess-order": "^3.0.0",
     "svg-sprite-loader": "^6.0.11",
-    "vue-template-compiler": "^2.6.14",
-    "webpack": "^4.46.0"
+    "vue-template-compiler": "^2.6.14"
   },
   "keywords": [
     "vue",
