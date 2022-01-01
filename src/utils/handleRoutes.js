@@ -75,16 +75,17 @@ function getConstRoter(menu) {
     },
     path: menu.path,
     name: menu.name || '',
-    component: () => {
-      menu.component === 'Layout' ? Layout : require(`@/views/${menu.component}`)
-    },
-    hidden: menu.isHide ? true : false,
-  }
+    component:
+      menu.component === 'Layout'
+        ? Layout
+        : () => import(`@/views/${menu.component}`),
 
-  if (menu.childern && menu.childern.length > 0) {
-    tem.childern = []
-    menu.childern.forEach((item) => {
-      tem.childern.push(getConstRoter(item))
+        hidden: menu.isHide ? true : false,
+  }
+  if (menu.children && menu.children.length > 0) {
+    tem.children = []
+    menu.children.forEach((item) => {
+      tem.children.push(getConstRoter(item))
     })
   }
   return tem
