@@ -83,8 +83,8 @@ export default {
           id: true,
           content: true,
           createtime: true,
-          ismessage: true,
-          readtime: true,
+          hasmessage: true,
+          readtimes: true,
           title: true,
           type: true,
           tb_user: {
