@@ -142,6 +142,7 @@ export default {
         })
           .then((res) => {
             this.$baseMessage('删除成功!', 'success')
+            this.pageloading = false
             this.searchData()
           })
           .catch(() => {

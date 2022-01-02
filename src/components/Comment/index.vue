@@ -6,9 +6,15 @@
       </div>
       <div class="content">
         <div class="avatar-box">
-          <img :src="photo" class="lazy avatar" />
+          <img
+            :src="photo"
+            class="lazy avatar"
+          />
         </div>
-        <EnterInput ref="input" @submit="submitStr"></EnterInput>
+        <EnterInput
+          ref="input"
+          @submit="submitStr"
+        ></EnterInput>
       </div>
     </div>
     <div class="comment-list-wrapper">
@@ -41,29 +47,29 @@ export default {
   components: { PopoverMessage, EnterInput },
   props: {
     rowid: {
-      type: String,
-      default: '',
+      type: Number,
+      default: null,
       required: true,
     },
   },
-  data() {
+  data () {
     return {
       indexName: 'tb_article_message',
       dataList: [],
       photo: baseURL + this.$store.state.user.photo,
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.getData()
   },
   methods: {
-    getData() {
+    getData () {
       const parmas = {
         indexName: this.indexName,
         conditions: JSON.stringify([
           {
             field: 'artid',
-            value: this.rowid,
+            value: parseInt(this.rowid),
           },
         ]),
         sort: JSON.stringify([{ createtime: 'asc' }]),
@@ -87,7 +93,7 @@ export default {
         this.dataList = this.handMessageData(res.data)
       })
     },
-    handMessageData(data) {
+    handMessageData (data) {
       let list = []
       if (data && data.length > 0) {
         let firstList = data.filter((element) => !element.pid)
@@ -104,7 +110,7 @@ export default {
       }
       return list
     },
-    submitStr(val) {
+    submitStr (val) {
       addData({
         indexName: this.indexName,
         dataList: JSON.stringify({
@@ -118,7 +124,7 @@ export default {
       })
     },
 
-    submitObj(obj) {
+    submitObj (obj) {
       addData({
         indexName: this.indexName,
         dataList: JSON.stringify({
@@ -131,7 +137,7 @@ export default {
       })
     },
 
-    eachChild(pid, allData) {
+    eachChild (pid, allData) {
       let list = []
       let firstList = allData.filter((element) => pid && pid === element.pid)
       firstList.forEach((element) => {

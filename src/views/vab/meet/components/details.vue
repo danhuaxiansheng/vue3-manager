@@ -1,9 +1,17 @@
 <template>
-  <div v-loading="loading" class="page-container">
+  <div
+    v-loading="loading"
+    class="page-container"
+  >
     <div style="min-height: 60vh">
       <h1 class="article-title">{{ form.title }}</h1>
       <div class="author-info-block">
-        <a href="#" target="_blank" rel="" class="avatar-link">
+        <a
+          href="#"
+          target="_blank"
+          rel=""
+          class="avatar-link"
+        >
           <img
             :src="sererIp + form.tb_user.photo"
             class="lazy avatar"
@@ -11,8 +19,15 @@
         </a>
         <div class="author-info-box">
           <div class="author-name">
-            <a href="#" target="_blank" class="username username ellipsis">
-              <span class="name" style="max-width: calc(100% - 50px)">
+            <a
+              href="#"
+              target="_blank"
+              class="username username ellipsis"
+            >
+              <span
+                class="name"
+                style="max-width: calc(100% - 50px)"
+              >
                 {{ form.tb_user.username }}
               </span>
             </a>
@@ -32,10 +47,16 @@
         </div>
       </div>
       <div class="article-content">
-        <div class="markdown-body" v-html="form.content"></div>
+        <div
+          class="markdown-body"
+          v-html="form.content"
+        ></div>
       </div>
     </div>
-    <Comment v-if="type === 'details'" :rowid="rowid"></Comment>
+    <Comment
+      v-if="type === 'details'"
+      :rowid="rowid"
+    ></Comment>
   </div>
 </template>
 
@@ -46,16 +67,16 @@ import { getFirstData } from '@/api/common.js'
 export default {
   name: 'Editor',
   components: { Comment },
-  data() {
+  data () {
     return {
       indexName: 'tb_article',
       loading: false,
-      rowid: '',
+      rowid: null,
       type: '',
       sererIp: baseURL,
       form: {
         title: '',
-        type: '',
+        typeid: 0,
         content: '',
         readtimes: 0,
         tb_user: {
@@ -65,20 +86,21 @@ export default {
       },
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.rowid = this.$route.query.rowid
     this.type = this.$route.query.type
     if (!this.rowid) {
       this.$router.push({ path: '/meet/meetlist' })
     } else {
+      this.rowid = parseInt(this.rowid)
       this.getCurr()
     }
   },
   methods: {
-    getCurr() {
+    getCurr () {
       const parmas = {
         indexName: this.indexName,
-        conditions: JSON.stringify([{ field: 'id', value: this.rowid }]),
+        conditions: JSON.stringify([{ field: 'id', value: parseInt(this.rowid) }]),
         select: JSON.stringify({
           id: true,
           content: true,
@@ -86,12 +108,12 @@ export default {
           hasmessage: true,
           readtimes: true,
           title: true,
-          type: true,
+          typeid: true,
           tb_user: {
             select: {
               id: true,
               username: true,
-              avatar: true,
+              photo: true,
             },
           },
         }),
@@ -106,7 +128,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 .article-title {
   margin: 0 0 1.667rem;
   font-size: 2.667rem;
