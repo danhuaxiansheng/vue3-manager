@@ -70,7 +70,7 @@
 
 <script>
 import Editor from '@/components/Editor/index.vue'
-import { updateData, getFirstData,getData } from '@/api/common'
+import { updateData, getFirstData, getData } from '@/api/common'
 export default {
   name: 'Meetedit',
   components: { Editor },
@@ -118,6 +118,7 @@ export default {
     if (!this.rowid) {
       this.$router.push({ path: '/meet/meetlist' })
     } else {
+      this.rowid = parseInt(this.rowid)
       this.getCurr()
     }
   },

@@ -75,6 +75,7 @@ export default {
       tableOptions: {
         column: [
           { prop: 'title', label: '标题' },
+          // { prop: 'typeid', label: '文章类型' },
           {
             label: '创建时间',
             prop: 'createtime',
