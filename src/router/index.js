@@ -87,6 +87,24 @@ export const asyncRoutes = [
   //     },
   //   ],
   // },
+
+  // {
+  //   path: '/log',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'log',
+  //   alwaysShow: true,
+  //   meta: { title: '日志审计', icon: 'box-open' },
+  //   children: [
+  //     {
+  //       path: 'loglist',
+  //       name: 'loglist',
+  //       component: () => import('@/views/vab/log/index'),
+  //       meta: { title: '日志列表' },
+  //     },
+  //   ],
+  // },
+
   {
     path: '/material',
     component: Layout,
