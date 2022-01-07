@@ -4,6 +4,7 @@
 
 import Vue from 'vue'
 import { login, logout, getInfo, getMenuByRoleid } from '@/api/user'
+import { addData } from '@/api/common.js'
 import { GetMenulist } from '@UTILS/menus.js'
 import {
   getAccessToken,
@@ -90,6 +91,19 @@ const actions = {
       menusData = GetMenulist(res.data)
     }
     return menusData
+  },
+
+  async addLog({ commit }, to) {
+    let pageName = to.meta.title || '未知'
+    addData({
+      indexName: 'tb_operation_log',
+      dataList: JSON.stringify({
+        menuname: pageName,
+        details: '访问界面' + pageName,
+        createid: this.state.user.userid,
+        opertype: '界面查询',
+      }),
+    })
   },
 
   async logout({ dispatch }) {

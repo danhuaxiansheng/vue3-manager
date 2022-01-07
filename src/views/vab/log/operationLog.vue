@@ -13,9 +13,9 @@
         >
           <el-form-item>
             <el-input
-              v-model.trim="queryForm.title"
+              v-model.trim="queryForm.details"
               clearable
-              placeholder="请输入日志名称"
+              placeholder="请输入操作详情"
               @keyup.enter.native="searchData"
             />
           </el-form-item>
@@ -45,44 +45,24 @@
           {{ row.title }}
         </el-link>
       </template>
-      <template #oper="{ row }">
-        <el-button
-          type="text"
-          @click="handleEdit(row)"
-        >编辑</el-button>
-        <el-button
-          type="text"
-          @click="handleDelete(row)"
-        >删除</el-button>
-      </template>
     </Table>
   </div>
 </template>
 
 <script>
 import Table from '@/components/GridBar/index.vue'
-import { deleteData } from '@/api/common.js'
 export default {
-  name: 'Meetlist',
+  name: 'OperationLog',
   components: { Table },
   data () {
     return {
       tableOptions: {
         column: [
-          { prop: 'title', label: '标题' },
-          { prop: 'loginip', label: 'IP地址' },
+          { prop: 'createid', label: '操作人' },
+          { prop: 'createtime', label: '登录时间' },
+          { prop: 'menuname', label: '模块名称' },
+          { prop: 'opertype', label: '操作类型' },
           { prop: 'details', label: '操作详情' },
-          // { prop: 'typeid', label: '文章类型' },
-          {
-            label: '创建时间',
-            prop: 'createtime',
-            width: '180',
-          },
-          {
-            label: '操作',
-            prop: 'oper',
-            width: '180',
-          },
         ],
       },
       queryForm: {
@@ -91,7 +71,7 @@ export default {
         username: '',
       },
       pageloading: false,
-      indexName: 'tb_article',
+      indexName: 'tb_operation_log',
     }
   },
   methods: {
@@ -99,54 +79,10 @@ export default {
       this.$refs.pageTable.tableSearch()
     },
     getConditions (conditions) {
-      if (this.queryForm.title && this.queryForm.title.length > 0) {
-        conditions.push({ field: 'title', type: '包含', value: this.queryForm.title })
+      if (this.queryForm.details && this.queryForm.details.length > 0) {
+        conditions.push({ field: 'details', type: '包含', value: this.queryForm.details })
       }
       return conditions
-    },
-    addMeet () {
-      this.$router.push({
-        path: '/meet/meetcreate',
-      })
-    },
-    detailsRow (row) {
-      this.$router.push({
-        path: '/meet/meetdetils',
-        query: {
-          rowid: row.id,
-          type: 'details',
-        },
-      })
-
-      this.addReadTimes(row.id)
-    },
-    // 新增阅读次数
-    addReadTimes (rowid) { },
-    handleEdit (row) {
-      this.$router.push({
-        path: '/meet/meetedit',
-        query: {
-          rowid: row.id,
-          type: 'edit',
-        },
-      })
-    },
-    handleDelete (row) {
-      this.$baseConfirm('你确定要删除当前项吗？', null, async () => {
-        this.pageloading = true
-        deleteData({
-          indexName: this.indexName,
-          conditions: JSON.stringify([{ field: 'id', value: row.id }]),
-        })
-          .then((res) => {
-            this.$baseMessage('删除成功!', 'success')
-            this.pageloading = false
-            this.searchData()
-          })
-          .catch(() => {
-            this.pageloading = false
-          })
-      })
     },
   },
 }

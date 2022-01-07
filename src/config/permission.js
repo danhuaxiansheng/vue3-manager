@@ -7,6 +7,7 @@ import store from '@/store'
 import VabProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import getPageTitle from '@/utils/pageTitle'
+
 import {
   authentication,
   // loginInterception,
@@ -33,6 +34,7 @@ router.beforeResolve(async (to, from, next) => {
         store.getters['user/username'] &&
         store.getters['user/username'].length > 0
       if (hasPermissions) {
+        store.dispatch('user/addLog', to)
         next()
       } else {
         try {
