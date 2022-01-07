@@ -94,12 +94,17 @@ const actions = {
   },
 
   async addLog({ commit }, to) {
-    let pageName = to.meta.title || '未知'
+    let menuname = to.meta.title
+    let pageName = '访问' + menuname
+    if (!menuname) {
+      menuname = to.name
+      pageName = '界面不存在'
+    }
     addData({
       indexName: 'tb_operation_log',
       dataList: JSON.stringify({
-        menuname: pageName,
-        details: '访问界面' + pageName,
+        menuname: menuname,
+        details: pageName,
         createid: this.state.user.userid,
         opertype: '界面查询',
       }),
