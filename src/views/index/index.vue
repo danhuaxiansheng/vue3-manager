@@ -54,7 +54,7 @@
         :lg="3"
         :xl="3"
       >
-        <router-link :to="item.link" target="_blank">
+        <router-link :to="item.link" >
           <el-card class="icon-panel" shadow="never">
             <vab-icon
               :style="{ color: item.color }"
@@ -253,8 +253,8 @@ export default {
         },
         {
           icon: 'clipboard-list',
-          title: '审计日志',
-          link: '/meet/meetcreate',
+          title: '日志审计',
+          link: '/log/loginLog',
           color: '#95de64',
         },
 
