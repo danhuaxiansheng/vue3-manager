@@ -51,7 +51,7 @@ const mutations = {
     })
   },
 }
-const actions = {
+const actions = { 
   addVisitedRoute({ commit }, route) {
     commit('addVisitedRoute', route)
   },

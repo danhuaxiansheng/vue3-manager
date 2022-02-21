@@ -101,9 +101,11 @@
         this.pagerOption.total = newVal
       },
       'pager.currentPage'(newVal) {
+        debugger
         this.pagerOption.currentPage = newVal
       },
       'pager.pageSize'(newVal) {
+        debugger
         this.pagerOption.pageSize = newVal
       },
     },
@@ -131,6 +133,7 @@
           ...{
             isShow: true,
             column: [],
+            select: null,
             key: 'id',
             loadingText: '正在加载...',
           },
@@ -151,6 +154,7 @@
         if (this.tableOption.height) {
           this.height = this.tableOption.height
         } else {
+          // 自动高度
           this.height = this.$baseTableHeight({
             hasPager: this.pagerOption.isShow,
           })
@@ -173,15 +177,32 @@
         }
         this.tableSearch()
       },
-      sizeChange(val) {},
-      currentChange(val) {},
+      sizeChange(val) {
+        this.tableSearch()
+      },
+      currentChange(val) {
+        this.tableSearch()
+      },
       getCondition() {
         let conditions = []
         let parmas = {
           indexName: this.indexName,
         }
+
+        // 修改排序字段
         if (this.sort) {
           parmas.sort = JSON.stringify([this.sort])
+        }
+
+        // 设置分页
+        if (this.pagerOption.isShow) {
+          parmas.skip = this.pagerOption.currentPage
+          parmas.take = this.pagerOption.pageSize
+        }
+
+        // 设置要查询的字段
+        if (this.tableOption.select) {
+          parmas.select = this.tableOption.select
         }
         this.$emit('getConditions', conditions)
         parmas.conditions = JSON.stringify(conditions)

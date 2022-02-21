@@ -2,7 +2,7 @@
   <div v-loading="pageloading" class="page-container">
     <vab-query-form>
       <vab-query-form-left-panel :span="12">
-        <el-button type="primary" >新增资料</el-button>
+        <el-button type="primary">新增资料</el-button>
       </vab-query-form-left-panel>
       <vab-query-form-right-panel :span="12">
         <el-form :inline="true" :model="queryForm" @submit.native.prevent>
@@ -46,50 +46,51 @@
 </template>
 
 <script>
-// import Table from '@/components/GridBar/index.vue'
-import { getData } from '@/api/common.js'
-export default {
-  name: 'Meetlist',
-  // components: { Table },
-  data() {
-    return {
-      tableOptions: {
-        column: [
-          { prop: 'title', label: '标题' },
-          {
-            label: '创建时间',
-            prop: 'createtime',
-            width: '180',
-          },
-          {
-            label: '操作',
-            prop: 'oper',
-            width: '180',
-          },
-        ],
-      },
-      queryForm: {
-        pageNo: 1,
-        pageSize: 10,
-        username: '',
-      },
-      pageloading: false,
-      indexName: 'tb_article',
-    }
-  },
-  methods: {
-    searchData() {
-      this.$refs.pageTable.tableSearch()
+  // import Table from '@/components/GridBar/index.vue'
+  import { getData } from '@/api/common.js'
+  export default {
+    name: 'Meetlist',
+    // components: { Table },
+    data() {
+      return {
+        tableOptions: {
+          column: [
+            { prop: 'title', label: '标题' },
+            {
+              label: '创建时间',
+              prop: 'createtime',
+              width: '180',
+            },
+            {
+              label: '操作',
+              prop: 'oper',
+              width: '180',
+            },
+          ],
+        },
+        currentDate: '',
+        queryForm: {
+          pageNo: 1,
+          pageSize: 10,
+          username: '',
+        },
+        pageloading: false,
+        indexName: 'tb_article',
+      }
     },
+    methods: {
+      searchData() {
+        this.$refs.pageTable.tableSearch()
+      },
 
-    // 新增阅读次数
-    addReadTimes(rowid) {},
-  },
-}
+      // 新增阅读次数
+      addReadTimes(rowid) {},
+    },
+  }
 </script>
 
 <style lang="scss" scoped>
-.el-select {
-  width: 100%;
-}
+  .el-select {
+    width: 100%;
+  }
 </style>
