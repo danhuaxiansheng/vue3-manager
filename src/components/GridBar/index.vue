@@ -101,11 +101,9 @@
         this.pagerOption.total = newVal
       },
       'pager.currentPage'(newVal) {
-        debugger
         this.pagerOption.currentPage = newVal
       },
       'pager.pageSize'(newVal) {
-        debugger
         this.pagerOption.pageSize = newVal
       },
     },
@@ -177,10 +175,12 @@
         }
         this.tableSearch()
       },
-      sizeChange(val) {
+      sizeChange(newVal) {
+        this.pagerOption.pageSize = newVal
         this.tableSearch()
       },
-      currentChange(val) {
+      currentChange(newVal) {
+        this.pagerOption.currentPage = newVal
         this.tableSearch()
       },
       getCondition() {
@@ -196,7 +196,7 @@
 
         // 设置分页
         if (this.pagerOption.isShow) {
-          parmas.skip = this.pagerOption.currentPage
+          parmas.skip = this.pagerOption.currentPage-1
           parmas.take = this.pagerOption.pageSize
         }
 
@@ -216,7 +216,7 @@
             this.tableLoading = false
             this.tableData = res.data
             if (this.pagerOption.isShow) {
-              this.pagerOption.total = res.data.length
+              this.pagerOption.total = res.total
             }
           })
           .catch(() => {
