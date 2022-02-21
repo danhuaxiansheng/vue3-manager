@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-form-item :key="prop" :label="label">
+    <el-form-item
+      :key="prop"
+      :label="label"
+    >
       <template v-if="type === 'input'">
         <el-input
           v-if="dataType === 'string'"
@@ -37,93 +40,100 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'FormItem',
-    props: {
-      // 字段值
-      // 双向绑定值，字段名为固定，改了之后将不生效
-      value: {
-        // apiAction:[],
-        type: [String, Number, Boolean],
-        default: () => {
-          return ''
-        },
-        require: false,
+export default {
+  name: 'FormItem',
+  props: {
+    // 字段值
+    // 双向绑定值，字段名为固定，改了之后将不生效
+    value: {
+      // apiAction:[],
+      type: [String, Number, Boolean],
+      default: () => {
+        return ''
       },
-      // 字段中文名
-      label: {
-        type: String,
-        default: () => '',
-        require: false,
-      },
-      // 字段名
-      prop: {
-        type: String,
-        default: () => '',
-        require: false,
-      },
-      // 内容框默认 placeholder
-      placeholder: {
-        type: String,
-        default: () => '请输入',
-        require: false,
-      },
-      // 字段值
-      maxlength: {
-        type: Number,
-        default: () => 50,
-      },
-      // 字段类型
-      type: {
-        type: String,
-        default: () => 'input',
-        require: false,
-      },
-      // 数据类型
-      dataType: {
-        type: String,
-        default: () => 'number',
-        require: false,
-      },
-      // 子元素
-      options: {
-        type: Array,
-        default: () => [],
-        require: false,
+      require: false,
+    },
+    // 字段中文名
+    label: {
+      type: String,
+      default: () => '',
+      require: false,
+    },
+    // 字段名
+    prop: {
+      type: String,
+      default: () => '',
+      require: false,
+    },
+    // 内容框默认 placeholder
+    placeholder: {
+      type: String,
+      default: () => '请输入',
+      require: false,
+    },
+    // 字段值
+    maxlength: {
+      type: Number,
+      default: () => 50,
+    },
+    // 字段类型
+    type: {
+      type: String,
+      default: () => 'input',
+      require: false,
+    },
+    // 数据类型
+    dataType: {
+      type: String,
+      default: () => 'number',
+      require: false,
+    },
+    // 子元素
+    options: {
+      type: Array,
+      default: () => [],
+      require: false,
+    },
+  },
+  data () {
+    return {
+      data: '',
+      isChild: false,
+      isParent: false,
+    }
+  },
+  // 监听双向绑定值的改变
+  watch: {
+    data: {
+      handler: function (value) {
+        if (!this.isParent && !this.isChild) {
+          this.$listeners.input(value)
+          this.isChild = true
+        } else {
+          this.isParent = false
+        }
       },
     },
-    data() {
-      return {
-        data: '',
-        isParent: false,
-      }
-    },
-    // 监听双向绑定值的改变
-    watch: {
-      data: {
-        handler: function (value) {
-          if (!this.isParent) {
-            this.$listeners.input(value)
-          } else {
-            this.isParent = false
-          }
-        },
-      },
-      value: {
-        handler: function (value) {
-          this.isParent = true
+    value: {
+      handler: function (value) {
+        this.isParent = true
+        if (!this.isChild) {
           this.data = value
-        },
+        } else {
+          this.isChild = false
+        }
       },
     },
-    mounted() {
-      this.data = this.value
+  },
+  created () {
+    this.isParent = true
+    this.data = this.value
+  },
+  beforeDestroy () { },
+  methods: {
+    getMaxLength (maxlength) {
+      return maxlength ? maxlength : 50
     },
-    beforeDestroy() {},
-    methods: {
-      getMaxLength(maxlength) {
-        return maxlength ? maxlength : 50
-      },
-    },
-  }
+  },
+}
 </script>
