@@ -63,14 +63,20 @@
           分享
         </el-button>
       </el-row>
+      <Comment
+        v-if="type === 'details'"
+        :rowid="rowid"
+      ></Comment>
     </el-card>
   </div>
 </template>
 
 <script>
-import { updateData, addData, getFirstData, getData } from '@/api/common.js'
+import { getData } from '@/api/common.js'
+import Comment from '@/components/Comment/index'
 export default {
   name: 'Meetlist',
+  components: { Comment },
   data () {
     return {
       tableOptions: {
