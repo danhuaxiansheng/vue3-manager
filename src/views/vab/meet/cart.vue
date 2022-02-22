@@ -1,162 +1,191 @@
 <template>
-  <div
-    v-loading="pageloading"
-    class="page-container"
-  >
-    <vab-query-form>
-      <vab-query-form-left-panel :span="12">
-        <el-button
-          type="primary"
-          @click="addMeet"
-        >新增资料</el-button>
-      </vab-query-form-left-panel>
-      <vab-query-form-right-panel :span="12">
-        <el-form
-          :inline="true"
-          :model="queryForm"
-          @submit.native.prevent
-        >
-          <el-form-item>
-            <el-input
-              v-model.trim="queryForm.title"
-              clearable
-              placeholder="请输入标题名称"
-              @keyup.enter.native="searchData"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              icon="el-icon-search"
-              type="primary"
-              @click="searchData"
-            >
-              查询
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </vab-query-form-right-panel>
-    </vab-query-form>
-    <Table
+  <div v-loading="pageloading" class="page-container">
+    <!-- <Table
       ref="pageTable"
       :index-name="indexName"
       :table="tableOptions"
       @getConditions="getConditions"
     >
       <template #title="{ row }">
-        <el-link
-          type="primary"
-          @click="detailsRow(row)"
-        >
+        <el-link type="primary" @click="detailsRow(row)">
           {{ row.title }}
         </el-link>
       </template>
       <template #oper="{ row }">
-        <el-button
-          type="text"
-          @click="handleEdit(row)"
-        >编辑</el-button>
-        <el-button
-          type="text"
-          @click="handleDelete(row)"
-        >删除</el-button>
+        <el-button type="text" @click="handleEdit(row)">编辑</el-button>
+        <el-button type="text" @click="handleDelete(row)">删除</el-button>
       </template>
-    </Table>
+    </Table> -->
+    <el-card v-for="item in tableData" :key="item.id">
+      <el-row class="card-head">
+        <a class="card-head-title title">{{ item.title }}</a>
+      </el-row>
+      <el-row class="card-body">
+        <div class="cart-body-panle" v-html="item.content"></div>
+      </el-row>
+      <el-row class="card-btn">
+        <el-button type="primary" icon="el-icon-caret-top" class="btn blue">
+          赞同 {{ item.goodtimes }}
+        </el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-caret-bottom"
+          class="btn blue"
+        ></el-button>
+        <el-button type="text" class="no-background">
+          <i class="el-icon-s-comment"></i>
+          添加评论
+        </el-button>
+        <el-button type="text" class="no-background">
+          <i class="el-icon-s-promotion"></i>
+          分享
+        </el-button>
+      </el-row>
+    </el-card>
   </div>
 </template>
 
 <script>
-import Table from '@/components/GridBar/index.vue'
-import { deleteData } from '@/api/common.js'
-export default {
-  name: 'Meetlist',
-  components: { Table },
-  data () {
-    return {
-      tableOptions: {
-        column: [
-          { prop: 'title', label: '标题' },
-          // { prop: 'typeid', label: '文章类型' },
-          {
-            label: '创建时间',
-            prop: 'createtime',
-            width: '180',
-          },
-          {
-            label: '操作',
-            prop: 'oper',
-            width: '180',
-          },
-        ],
-      },
-      queryForm: {
-        pageNo: 1,
-        pageSize: 10,
-        username: '',
-      },
-      pageloading: false,
-      indexName: 'tb_article',
-    }
-  },
-  methods: {
-    searchData () {
-      this.$refs.pageTable.tableSearch()
-    },
-    getConditions (conditions) {
-      if (this.queryForm.title && this.queryForm.title.length > 0) {
-        conditions.push({ field: 'title', type: '包含', value: this.queryForm.title })
+  import { updateData, addData, getFirstData, getData } from '@/api/common.js'
+  export default {
+    name: 'Meetlist',
+    data() {
+      return {
+        tableOptions: {
+          column: [
+            { prop: 'title', label: '标题' },
+            // { prop: 'typeid', label: '文章类型' },
+            {
+              label: '创建时间',
+              prop: 'createtime',
+              width: '180',
+            },
+            {
+              label: '操作',
+              prop: 'oper',
+              width: '180',
+            },
+          ],
+        },
+        queryForm: {
+          pageNo: 1,
+          pageSize: 10,
+          username: '',
+        },
+        pageloading: false,
+        tableData: [],
+        indexName: 'tb_article',
       }
-      return conditions
     },
-    addMeet () {
-      this.$router.push({
-        path: '/meet/meetcreate',
-      })
+    beforeMount() {
+      this.getAllList()
     },
-    detailsRow (row) {
-      this.$router.push({
-        path: '/meet/meetdetils',
-        query: {
-          rowid: row.id,
-          type: 'details',
-        },
-      })
-
-      this.addReadTimes(row.id)
-    },
-    // 新增阅读次数
-    addReadTimes (rowid) { },
-    handleEdit (row) {
-      this.$router.push({
-        path: '/meet/meetedit',
-        query: {
-          rowid: row.id,
-          type: 'edit',
-        },
-      })
-    },
-    handleDelete (row) {
-      this.$baseConfirm('你确定要删除当前项吗？', null, async () => {
-        this.pageloading = true
-        deleteData({
+    methods: {
+      getAllList() {
+        const parmas = {
           indexName: this.indexName,
-          conditions: JSON.stringify([{ field: 'id', value: row.id }]),
+          conditions: JSON.stringify([]),
+          sort: JSON.stringify([{ createtime: 'desc' }]),
+        }
+        getData(parmas).then((result) => {
+          this.tableData = result.data
         })
-          .then((res) => {
-            this.$baseMessage('删除成功!', 'success')
-            this.pageloading = false
-            this.searchData()
-          })
-          .catch(() => {
-            this.pageloading = false
-          })
-      })
+      },
+      addMeet() {
+        this.$router.push({
+          path: '/meet/meetcreate',
+        })
+      },
+      detailsRow(row) {
+        this.$router.push({
+          path: '/meet/meetdetils',
+          query: {
+            rowid: row.id,
+            type: 'details',
+          },
+        })
+        this.addReadTimes(row.id)
+      },
+      // 新增阅读次数
+      addReadTimes(rowid) {},
     },
-  },
-}
+  }
 </script>
 
 <style lang="scss" scoped>
-.el-select {
-  width: 100%;
-}
+  .page-container {
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
+      Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei,
+      sans-serif;
+    font-size: 15px;
+    color: #121212;
+  }
+  .card-head-title {
+    text-decoration: none;
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #121212;
+  }
+
+  .card-body {
+    .cart-body-panle {
+      height: 110px;
+      overflow: hidden;
+      margin-top: 9px;
+    }
+  }
+
+  .card-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 0 -20px -10px;
+    color: #646464;
+  }
+
+  .no-background {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+  }
+
+  // .card-btn .el-button{
+  //   display: inline-block;
+  //   padding: 0 16px;
+  //   font-size: 14px;
+  //   line-height: 32px;
+  //   text-align: center;
+  //   cursor: pointer;
+  //   background: none;
+  //   border-radius: 3px;
+  //   color: #8590a6;
+  //   height: 32px;
+  // }
+
+  .btn {
+    display: inline-block;
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 32px;
+    text-align: center;
+    cursor: pointer;
+    background: none;
+    border-radius: 3px;
+    color: #8590a6;
+    height: 32px;
+    ::v-deep {
+      i {
+        font-size: 16px;
+      }
+    }
+  }
+  .blue {
+    color: #06f;
+    border-color: transparent;
+    background: rgba(0, 102, 255, 0.1);
+    padding: 0 12px;
+  }
 </style>
