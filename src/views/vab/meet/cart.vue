@@ -1,21 +1,5 @@
 <template>
   <div v-loading="pageloading" class="page-container">
-    <!-- <Table
-      ref="pageTable"
-      :index-name="indexName"
-      :table="tableOptions"
-      @getConditions="getConditions"
-    >
-      <template #title="{ row }">
-        <el-link type="primary" @click="detailsRow(row)">
-          {{ row.title }}
-        </el-link>
-      </template>
-      <template #oper="{ row }">
-        <el-button type="text" @click="handleEdit(row)">编辑</el-button>
-        <el-button type="text" @click="handleDelete(row)">删除</el-button>
-      </template>
-    </Table> -->
     <el-card v-for="item in tableData" :key="item.id">
       <el-row class="card-head">
         <a class="card-head-title title" @click="detailsRow(item)">
@@ -23,7 +7,20 @@
         </a>
       </el-row>
       <el-row class="card-body">
-        <div class="cart-body-panle" v-html="item.content"></div>
+        <div
+          class="cart-body-panle"
+          :class="getMoreClass(item)"
+          v-html="item.content"
+        ></div>
+        <el-button
+          v-if="!item.showMore"
+          type="text"
+          class="no-background more"
+          @click="showMore(item)"
+        >
+          阅读全文
+          <i class="el-icon-arrow-down"></i>
+        </el-button>
       </el-row>
       <el-row class="card-btn">
         <el-button
@@ -51,6 +48,15 @@
         >
           <i class="el-icon-s-promotion"></i>
           分享
+        </el-button>
+        <el-button
+          v-if="item.showMore"
+          type="text"
+          class="no-background more right"
+          @click="hideMore(item)"
+        >
+          收起
+          <i class="el-icon-arrow-up"></i>
         </el-button>
       </el-row>
       <!-- <Comment  :rowid="rowid"></Comment> -->
@@ -124,18 +130,6 @@
             type: 'details',
           },
         })
-        this.addReadTimes(row.id)
-      },
-      // 新增阅读次数
-      addReadTimes(rowid) {
-        const parmas = {
-          indexName: this.indexName,
-          conditions: JSON.stringify([]),
-          sort: JSON.stringify([{ createtime: 'desc' }]),
-        }
-        updateData(parmas).then((result) => {
-          this.tableData = result.data
-        })
       },
       // 点赞
       addGoods(item) {
@@ -181,6 +175,21 @@
         let text = this.getCopyTxt(item)
         copyText(text, event)
       },
+      // 查看更多
+      showMore(row) {
+        row.showMore = true
+        this.$forceUpdate()
+        // row = Object.assign({}, row, { showMore: true })
+      },
+      hideMore(row) {
+        row.showMore = false
+        this.$forceUpdate()
+        // row = Object.assign({}, row, { showMore: false })
+      },
+      getMoreClass(item) {
+        item.showMore = item.showMore ?? false
+        return item.showMore ? 'show-more' : 'hide-more'
+      },
     },
   }
 </script>
@@ -206,12 +215,20 @@
 
   .card-body {
     .cart-body-panle {
-      height: 155px;
-      overflow: hidden;
       margin-top: 9px;
     }
+    .hide-more {
+      height: 155px;
+      overflow: hidden;
+    }
+    .show-more {
+      height: calc(100vh - 225px);
+      overflow-y: auto;
+    }
   }
-
+  .right {
+    margin-left: auto;
+  }
   .card-btn {
     display: flex;
     align-items: center;
@@ -264,5 +281,9 @@
 
   .color-default {
     color: #8590a6;
+  }
+
+  .more {
+    color: #175199;
   }
 </style>
