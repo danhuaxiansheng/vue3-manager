@@ -66,12 +66,13 @@
     </el-card>
 
     <el-dialog
-      width="560"
-      height="calc(100vh - 100px)"
+      width="50%"
+      height="500px"
+      class="cmment-dia"
       :visible.sync="showComment"
       @beforeClose="showComment = false"
     >
-      <Comment :rowid="commentid"></Comment>
+      <Comment :rowid="commentid" reversed></Comment>
     </el-dialog>
   </div>
 </template>
@@ -302,5 +303,13 @@
 
   .more {
     color: #175199;
+  }
+
+  .cmment-dia {
+    ::v-deep {
+      .el-dialog__body {
+        padding: 0px;
+      }
+    }
   }
 </style>

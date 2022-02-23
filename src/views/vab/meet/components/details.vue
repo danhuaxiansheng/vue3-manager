@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading" class="page-container">
-    <div style="min-height: 60vh">
+    <div style="min-height: 60vh; margin-bottom: 1.67rem">
       <h1 class="article-title">{{ form.title }}</h1>
       <div class="author-info-block">
         <a href="#" target="_blank" rel="" class="avatar-link">

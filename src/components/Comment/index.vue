@@ -180,7 +180,6 @@
     box-sizing: border-box;
     max-width: 1140px;
     padding-bottom: 2rem;
-    margin-top: 1.67rem;
   }
 
   .comment-form {
