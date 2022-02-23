@@ -26,13 +26,19 @@
         <div class="cart-body-panle" v-html="item.content"></div>
       </el-row>
       <el-row class="card-btn">
-        <el-button type="primary" icon="el-icon-caret-top" class="btn blue">
+        <el-button
+          type="primary"
+          icon="el-icon-caret-top"
+          class="btn blue"
+          @click="addGoods(item)"
+        >
           赞同 {{ item.goodtimes }}
         </el-button>
         <el-button
           type="primary"
           icon="el-icon-caret-bottom"
           class="btn blue"
+          @click="addBads(item)"
         ></el-button>
         <el-button type="text" class="no-background color-default">
           <i class="el-icon-s-comment"></i>
@@ -58,7 +64,7 @@
   // 组件
   import Comment from '@/components/Comment/index'
   // 接口
-  import { getData } from '@/api/common.js'
+  import { getData, updateData } from '@/api/common.js'
 
   export default {
     name: 'Meetlist',
@@ -121,7 +127,47 @@
         this.addReadTimes(row.id)
       },
       // 新增阅读次数
-      addReadTimes(rowid) {},
+      addReadTimes(rowid) {
+        const parmas = {
+          indexName: this.indexName,
+          conditions: JSON.stringify([]),
+          sort: JSON.stringify([{ createtime: 'desc' }]),
+        }
+        updateData(parmas).then((result) => {
+          this.tableData = result.data
+        })
+      },
+      // 点赞
+      addGoods(item) {
+        updateData({
+          indexName: this.indexName,
+          conditions: JSON.stringify([{ field: 'id', value: item.id }]),
+          dataList: JSON.stringify({
+            goodtimes: {
+              increment: 1, // 自增
+            },
+          }),
+        }).then((result) => {
+          item.goodtimes = result.data.goodtimes
+          this.$baseMessage('点赞+1', 'success')
+        })
+      },
+      // 踩
+      addBads(item) {
+        updateData({
+          indexName: this.indexName,
+          conditions: JSON.stringify([{ field: 'id', value: item.id }]),
+          dataList: JSON.stringify({
+            badtimes: {
+              increment: 1, // 自增
+            },
+          }),
+        }).then((result) => {
+          item.badtimes = result.data.badtimes
+          this.$baseMessage('踩+1', 'success')
+        })
+      },
+      // 拼接链接
       getCopyTxt(row) {
         return (
           location.origin +
@@ -130,21 +176,10 @@
           `?rowid=${row.id}&type=details`
         )
       },
+      // 复制链接
       copy(item, event) {
         let text = this.getCopyTxt(item)
         copyText(text, event)
-        // var clipboard = new Clipboard('#copy_link')
-        // clipboard.on('success', (e) => {
-        //   this.$baseMessage('复制链接成功', 'success')
-        //   // 释放内存
-        //   clipboard.destroy()
-        // })
-        // clipboard.on('error', (e) => {
-        //   // 不支持复制
-        //   this.$baseMessage('该浏览器不支持自动复制', 'error')
-        //   // 释放内存
-        //   clipboard.destroy()
-        // })
       },
     },
   }
