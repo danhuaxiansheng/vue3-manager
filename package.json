@@ -28,6 +28,7 @@
   "dependencies": {
     "@vue/eslint-config-prettier": "^6.0.0",
     "axios": "^0.24.0",
+    "clipboard": "^2.0.10",
     "cnpm": "^7.1.0",
     "core-js": "^3.19.2",
     "dayjs": "^1.10.7",
