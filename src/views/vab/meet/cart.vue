@@ -37,7 +37,11 @@
           class="btn blue"
           @click="addBads(item)"
         ></el-button>
-        <el-button type="text" class="no-background color-default">
+        <el-button
+          type="text"
+          class="no-background color-default"
+          @click="openComment(item)"
+        >
           <i class="el-icon-s-comment"></i>
           添加评论
         </el-button>
@@ -59,8 +63,16 @@
           <i class="el-icon-arrow-up"></i>
         </el-button>
       </el-row>
-      <!-- <Comment  :rowid="rowid"></Comment> -->
     </el-card>
+
+    <el-dialog
+      width="560"
+      height="calc(100vh - 100px)"
+      :visible.sync="showComment"
+      @beforeClose="showComment = false"
+    >
+      <Comment :rowid="commentid"></Comment>
+    </el-dialog>
   </div>
 </template>
 
@@ -74,7 +86,7 @@
 
   export default {
     name: 'Meetlist',
-    // components: { Comment },
+    components: { Comment },
     data() {
       return {
         tableOptions: {
@@ -101,6 +113,8 @@
         pageloading: false,
         tableData: [],
         indexName: 'tb_article',
+        showComment: false, // 是否展示弹出框
+        commentid: 0,
       }
     },
     beforeMount() {
@@ -179,16 +193,19 @@
       showMore(row) {
         row.showMore = true
         this.$forceUpdate()
-        // row = Object.assign({}, row, { showMore: true })
       },
       hideMore(row) {
         row.showMore = false
         this.$forceUpdate()
-        // row = Object.assign({}, row, { showMore: false })
       },
       getMoreClass(item) {
         item.showMore = item.showMore ?? false
         return item.showMore ? 'show-more' : 'hide-more'
+      },
+      // 打开评论
+      openComment(item) {
+        this.commentid = item.id
+        this.showComment = true
       },
     },
   }
