@@ -69,6 +69,7 @@
       width="50%"
       height="500px"
       class="cmment-dia"
+      top="7vh"
       :visible.sync="showComment"
       @beforeClose="showComment = false"
     >
@@ -307,8 +308,15 @@
 
   .cmment-dia {
     ::v-deep {
+      .el-dialog__header {
+        display: none;
+      }
       .el-dialog__body {
         padding: 0px;
+        .comment-list {
+          max-height: 300px;
+          overflow-y: auto;
+        }
       }
     }
   }
