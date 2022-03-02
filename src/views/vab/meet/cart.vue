@@ -1,70 +1,93 @@
 <template>
   <div v-loading="pageloading" class="page-container">
-    <el-card v-for="item in tableData" :key="item.id">
-      <el-row class="card-head">
-        <a class="card-head-title title" @click="detailsRow(item)">
-          {{ item.title }}
-        </a>
-      </el-row>
-      <el-row class="card-body">
-        <div
-          class="cart-body-panle"
-          :class="getMoreClass(item)"
-          v-html="item.content"
-        ></div>
-        <el-button
-          v-if="!item.showMore"
-          type="text"
-          class="no-background more"
-          @click="showMore(item)"
-        >
-          阅读全文
-          <i class="el-icon-arrow-down"></i>
-        </el-button>
-      </el-row>
-      <el-row class="card-btn">
-        <el-button
-          type="primary"
-          icon="el-icon-caret-top"
-          class="btn blue"
-          @click="addGoods(item)"
-        >
-          赞同 {{ item.goodtimes }}
-        </el-button>
-        <el-button
-          type="primary"
-          icon="el-icon-caret-bottom"
-          class="btn blue"
-          @click="addBads(item)"
-        ></el-button>
-        <el-button
-          type="text"
-          class="no-background color-default"
-          @click="openComment(item)"
-        >
-          <i class="el-icon-s-comment"></i>
-          添加评论
-        </el-button>
-        <el-button
-          type="text"
-          class="no-background color-default"
-          @click="copy(item, $event)"
-        >
-          <i class="el-icon-s-promotion"></i>
-          分享
-        </el-button>
-        <el-button
-          v-if="item.showMore"
-          type="text"
-          class="no-background more right"
-          @click="hideMore(item)"
-        >
-          收起
-          <i class="el-icon-arrow-up"></i>
-        </el-button>
-      </el-row>
-    </el-card>
-
+    <el-row>
+      <el-col class="panel-left">
+        <el-card v-for="item in tableData" :key="item.id">
+          <el-row class="card-head">
+            <a class="card-head-title title" @click="detailsRow(item)">
+              {{ item.title }}
+            </a>
+          </el-row>
+          <el-row class="card-body">
+            <div
+              class="cart-body-panle"
+              :class="getMoreClass(item)"
+              v-html="item.content"
+            ></div>
+            <el-button
+              v-if="!item.showMore"
+              type="text"
+              class="no-background more"
+              @click="showMore(item)"
+            >
+              阅读全文
+              <i class="el-icon-arrow-down"></i>
+            </el-button>
+          </el-row>
+          <el-row class="card-btn">
+            <el-button
+              type="primary"
+              icon="el-icon-caret-top"
+              class="btn blue"
+              @click="addGoods(item)"
+            >
+              赞同 {{ item.goodtimes }}
+            </el-button>
+            <el-button
+              type="primary"
+              icon="el-icon-caret-bottom"
+              class="btn blue"
+              @click="addBads(item)"
+            ></el-button>
+            <el-button
+              type="text"
+              class="no-background color-default"
+              @click="openComment(item)"
+            >
+              <i class="el-icon-s-comment"></i>
+              添加评论
+            </el-button>
+            <el-button
+              type="text"
+              class="no-background color-default"
+              @click="copy(item, $event)"
+            >
+              <i class="el-icon-s-promotion"></i>
+              分享
+            </el-button>
+            <el-button
+              v-if="item.showMore"
+              type="text"
+              class="no-background more right"
+              @click="hideMore(item)"
+            >
+              收起
+              <i class="el-icon-arrow-up"></i>
+            </el-button>
+          </el-row>
+        </el-card>
+      </el-col>
+      <el-col class="panel-right">
+        <el-card class="box-card">
+          <span class="card-item">
+            <i class="el-icon-tickets"></i>
+            回答问题
+          </span>
+          <span class="card-item">
+            <i class="el-icon-video-camera"></i>
+            发视频
+          </span>
+          <span class="card-item">
+            <i class="el-icon-edit-outline"></i>
+            写文章
+          </span>
+          <span class="card-item">
+            <i class="el-icon-chat-dot-round"></i>
+            写想法
+          </span>
+        </el-card>
+      </el-col>
+    </el-row>
     <el-dialog
       width="50%"
       height="500px"
@@ -316,6 +339,42 @@
         .comment-list {
           max-height: 300px;
           overflow-y: auto;
+        }
+      }
+    }
+  }
+  .panel-left {
+    width: calc(100% - 296px - 10px);
+  }
+  .panel-right {
+    margin-left: 10px;
+    width: 296px;
+    .box-card {
+      padding: 8px 0 20px;
+      position: relative;
+      .card-item {
+        margin: 0 auto;
+        display: inline-flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-align: center;
+        align-items: center;
+        cursor: pointer;
+        width: 50px;
+        margin-right: 18px;
+      }
+      .card-item:last-child {
+        margin-right: 0px;
+      }
+      span {
+        font-size: 12px;
+        line-height: 1;
+        text-align: center;
+        color: #444;
+        i {
+          width: 50px;
+          height: 40px;
+          font-size: 24px;
         }
       }
     }
