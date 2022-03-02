@@ -80,7 +80,7 @@ export default {
       if (!pid) {
         return ''
       } else {
-        let filList = list.filter(element => { return element.id === pid })
+        let filList = list.filter(item => { return item.id === pid })
         return filList.length > 0 ? filList[0].tb_user.username : ''
       }
     }

@@ -100,16 +100,16 @@
       handMessageData(data) {
         let list = []
         if (data && data.length > 0) {
-          let firstList = data.filter((element) => !element.pid)
-          firstList.forEach((element) => {
+          let firstList = data.filter((item) => !item.pid)
+          firstList.forEach((item) => {
             let children = this.eachChild(
-              element.id,
+              item.id,
               JSON.parse(JSON.stringify(data))
             )
             if (children && children.length > 0) {
-              element.children = children
+              item.children = children
             }
-            list.push(element)
+            list.push(item)
           })
         }
         return list
@@ -141,17 +141,16 @@
       },
       eachChild(pid, allData) {
         let list = []
-        let firstList = allData.filter((element) => pid && pid === element.pid)
-        firstList.forEach((element) => {
+        let firstList = allData.filter((item) => pid && pid === item.pid)
+        firstList.forEach((item) => {
           let children = this.eachChild(
-            element.id,
+            item.id,
             JSON.parse(JSON.stringify(allData))
           )
           if (children && children.length > 0) {
             list = children.concat(list)
-            // element.children = children
           }
-          list.unshift(element)
+          list.unshift(item)
         })
         return list
       },
