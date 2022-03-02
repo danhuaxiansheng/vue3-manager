@@ -86,6 +86,35 @@
             写想法
           </span>
         </el-card>
+        <el-card>
+          <div class="ProfileSideCreator-analytics">
+            <div class="ProfileSideCreator-readCountItem">
+              <div class="ProfileSideCreator-readCountTitle">
+                今日阅读 (播放) 数
+                <div class="Popover ProfileSideCreator-analytics-Popover">
+                  <div>
+                    <span
+                      style="display: inline-flex; align-items: center"
+                    ></span>
+                  </div>
+                </div>
+              </div>
+              <div class="ProfileSideCreator-readCountNumber">0</div>
+              <div class="css-u2c28s">
+                <div class="ProfileSideCreator-countDeltaText">昨日数据</div>
+                <div class="css-1gqd0v0">0</div>
+              </div>
+            </div>
+            <div class="ProfileSideCreator-readCountItem">
+              <div class="ProfileSideCreator-readCountTitle">今日赞同数</div>
+              <div class="ProfileSideCreator-readCountNumber">0</div>
+              <div class="css-u2c28s">
+                <div class="ProfileSideCreator-countDeltaText">昨日数据</div>
+                <div class="css-1gqd0v0">0</div>
+              </div>
+            </div>
+          </div>
+        </el-card>
       </el-col>
     </el-row>
     <el-dialog
