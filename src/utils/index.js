@@ -245,9 +245,9 @@ export function random(m, n) {
  * @type {function(...[*]=)}
  */
 export const on = (function () {
-  return function (element, event, handler, useCapture = false) {
-    if (element && event && handler) {
-      element.addEventListener(event, handler, useCapture)
+  return function (item, event, handler, useCapture = false) {
+    if (item && event && handler) {
+      item.addEventListener(event, handler, useCapture)
     }
   }
 })()
@@ -258,9 +258,9 @@ export const on = (function () {
  * @type {function(...[*]=)}
  */
 export const off = (function () {
-  return function (element, event, handler, useCapture = false) {
-    if (element && event) {
-      element.removeEventListener(event, handler, useCapture)
+  return function (item, event, handler, useCapture = false) {
+    if (item && event) {
+      item.removeEventListener(event, handler, useCapture)
     }
   }
 })()
