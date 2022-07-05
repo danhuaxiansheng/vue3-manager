@@ -16,6 +16,7 @@ const mutations = {
 }
 const actions = {
   async setRoutes({ commit }, menuList) {
+    debugger
     const finallyAsyncRoutes = await filterAsyncRoutes(menuList, asyncRoutes)
     commit('setRoutes', finallyAsyncRoutes)
     return finallyAsyncRoutes

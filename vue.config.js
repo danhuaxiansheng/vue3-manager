@@ -38,7 +38,6 @@ module.exports = {
   assetsDir,
   outputDir,
   lintOnSave,
-
   transpileDependencies,
   devServer: {
     hot: true,
@@ -50,9 +49,10 @@ module.exports = {
       errors: true,
     },
   },
+  // devtool: 'source-map', // 2. 这个配置必须
   configureWebpack() {
     return {
-      devtool:'sourse-map',// 设置源代码调试
+      devtool: 'sourse-map', // 设置源代码调试
       resolve: {
         alias: {
           '@': resolve('src'),
