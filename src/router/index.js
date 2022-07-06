@@ -1,5 +1,5 @@
 /**
- * @description router全局配置，如有必要可分文件抽离，其中asyncRoutes只有在intelligence模式下才会用到，vip文档中已提供路由的基础图标与小清新图标的配置方案，请仔细阅读
+ * @description router全局配置，如有必要可分文件抽离，vip文档中已提供路由的基础图标与小清新图标的配置方案，请仔细阅读
  */
 
 import Vue from 'vue'
@@ -60,38 +60,6 @@ export const constantRoutes = [
       },
     ],
   },
-]
-
-export const asyncRoutes = [
-  // {
-  //   path: '/vab',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'Vab',
-  //   alwaysShow: true,
-  //   meta: { title: '组件', icon: 'box-open' },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       component: () => import('@/views/vab/table/index'),
-  //       name: 'Table',
-  //       meta: {
-  //         title: '表格',
-  //       },
-  //     },
-  //     {
-  //       path: 'log',
-  //       name: 'Log',
-  //       component: () => import('@/views/vab/errorLog/index'),
-  //       meta: { title: '错误日志模拟',  },
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: '*',
-  //   redirect: '/404',
-  //   hidden: true,
-  // },
 ]
 
 const router = new VueRouter({

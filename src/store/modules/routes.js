@@ -1,6 +1,6 @@
 /**
  */
-import { constantRoutes, asyncRoutes } from '@/router'
+import { constantRoutes } from '@/router'
 import { filterAsyncRoutes } from '@/utils/handleRoutes'
 
 const state = () => ({
@@ -16,8 +16,7 @@ const mutations = {
 }
 const actions = {
   async setRoutes({ commit }, menuList) {
-    debugger
-    const finallyAsyncRoutes = await filterAsyncRoutes(menuList, asyncRoutes)
+    const finallyAsyncRoutes = await filterAsyncRoutes(menuList)
     commit('setRoutes', finallyAsyncRoutes)
     return finallyAsyncRoutes
   },
