@@ -1,4 +1,3 @@
-
 import Layout from '@/layouts'
 
 function getConstRoter(menu) {
@@ -12,10 +11,10 @@ function getConstRoter(menu) {
     component:
       menu.component === 'Layout'
         ? Layout
-        : () => import(`@/views/${menu.component}`),
-
-        hidden: menu.isHide ? true : false,
+        : (resolve) => require(['@/views/' + menu.component], resolve),
+    hidden: menu.isHide ? true : false,
   }
+
   if (menu.children && menu.children.length > 0) {
     tem.children = []
     menu.children.forEach((item) => {

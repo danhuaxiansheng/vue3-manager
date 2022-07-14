@@ -8,6 +8,7 @@ const network = {
   //     ? 'vab-mock-server'
   //     : 'vab-mock-server',
   baseURL: 'http://localhost:3010',
+  // "111.229.92.181"
   //配后端数据的接收方式application/json;charset=UTF-8或者application/x-www-form-urlencoded;charset=UTF-8
   contentType: 'application/json;charset=UTF-8',
   //消息框消失时间
